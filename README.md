@@ -26,20 +26,6 @@ npm run dev
 - Prisma gives typed queries and a migration history that lives in git, so the schema, the TypeScript types and the validation stay in sync. Enums (`PlayerRole`, `UserRole`) are enforced by the database as well as by TypeScript.
 - SQLite would have been simpler locally, but it has no native enums and a weaker story for concurrent writes, so Postgres is the better fit for a multi-user admin tool.
 
-## Database schema
-
-| Model | Purpose | Key fields |
-| --- | --- | --- |
-| `User` | Login accounts | `email` (unique), `passwordHash` (bcrypt), `role` (`ADMIN` / `VIEWER`) |
-| `Player` | A cricketer and career totals | `name`, `role` (`BATSMAN` / `BOWLER` / `ALL_ROUNDER` / `WICKETKEEPER`), `basePrice`, `matchesPlayed`, `totalRuns`, `totalWickets` |
-| `Match` | One recorded game | `teamA`, `teamB`, optional `winner`, `playedAt`, `recordedById` -> `User` |
-| `PlayerPerformance` | One player's numbers in one match | `matchId`, `playerId`, `runs`, `wickets`, **unique `(matchId, playerId)`** |
-
-Design notes:
-
-- **Career totals are stored on `Player`** and incremented when a match is recorded, rather than summed from performances on every read. The leaderboard then only needs one cheap query. The trade-off is that totals can drift if rows are edited by hand, which is why match recording is transactional and is the only code path that touches them besides the admin edit form.
-- The **Impact Score is not stored.** It is derived from the stats each time, so a change to the formula never leaves stale numbers in the database.
-- `PlayerPerformance` cascades on delete; `Match.recordedById` is `RESTRICT` so a user who recorded matches cannot be deleted by accident.
 
 ## Authentication
 
