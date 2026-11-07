@@ -1,6 +1,6 @@
-# Cricket Impact
+# Criico
 
-A Next.js app for managing cricket players, recording match results and ranking players by a custom **Cricket Impact Score**.
+A Next.js app for managing cricket players, recording match results and ranking players by a custom **Criico Score**.
 
 **Stack:** Next.js (App Router) · React · TypeScript · PostgreSQL + Prisma · JWT in HTTP-only cookies (`jose`) · Tailwind CSS · Vitest · Zod · Sonner (toasts)
 
@@ -26,7 +26,6 @@ npm run dev
 - Prisma gives typed queries and a migration history that lives in git, so the schema, the TypeScript types and the validation stay in sync. Enums (`PlayerRole`, `UserRole`) are enforced by the database as well as by TypeScript.
 - SQLite would have been simpler locally, but it has no native enums and a weaker story for concurrent writes, so Postgres is the better fit for a multi-user admin tool.
 
-
 ## Authentication
 
 I used **hand-rolled JWT sessions stored in an HTTP-only cookie** (`jose` + `bcryptjs`) instead of NextAuth.js:
@@ -39,7 +38,7 @@ I used **hand-rolled JWT sessions stored in an HTTP-only cookie** (`jose` + `bcr
 
 Note: Next.js 16 deprecates the `middleware.ts` file convention in favour of `proxy.ts` (same behaviour, new name). The brief asks for `middleware.ts`, which still works and prints a deprecation warning. Migrating is `npx @next/codemod@canary middleware-to-proxy .`.
 
-## The Cricket Impact Score
+## The Criico Score
 
 All of the logic lives in `src/lib/impact-score.ts`.
 
@@ -72,15 +71,15 @@ Worked example (Wicketkeeper, 25 matches, 1000 runs, 4 wickets): `1000 x 1.2 = 1
 
 All routes except register/login require the session cookie. Mutations require an ADMIN. Errors are JSON: `{ "error": "...", "fields": { "totalRuns": "Total runs cannot be negative" } }`.
 
-| Method | Route | Notes |
-| --- | --- | --- |
-| POST | `/api/auth/register` | Creates the account and signs in (first user = ADMIN) |
-| POST | `/api/auth/login` | Verifies credentials; the JWT is set via `Set-Cookie` (HttpOnly) |
-| POST | `/api/auth/logout` | Clears the cookie |
-| GET / POST | `/api/players` | List (with `impactScore`) / create |
-| GET / PUT | `/api/players/[id]` | Read one / update details and stats |
-| POST | `/api/matches` | `{ teamA, teamB, winner?, performances: [{ playerId, runs, wickets }] }`; increments each player's matches, runs and wickets in one transaction |
-| GET | `/api/leaderboard` | Ranked by impact score, highest first (ties broken by name) |
+| Method     | Route                | Notes                                                                                                                                           |
+| ---------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| POST       | `/api/auth/register` | Creates the account and signs in (first user = ADMIN)                                                                                           |
+| POST       | `/api/auth/login`    | Verifies credentials; the JWT is set via `Set-Cookie` (HttpOnly)                                                                                |
+| POST       | `/api/auth/logout`   | Clears the cookie                                                                                                                               |
+| GET / POST | `/api/players`       | List (with `impactScore`) / create                                                                                                              |
+| GET / PUT  | `/api/players/[id]`  | Read one / update details and stats                                                                                                             |
+| POST       | `/api/matches`       | `{ teamA, teamB, winner?, performances: [{ playerId, runs, wickets }] }`; increments each player's matches, runs and wickets in one transaction |
+| GET        | `/api/leaderboard`   | Ranked by impact score, highest first (ties broken by name)                                                                                     |
 
 ## Where the brief's "strict rules" are met
 

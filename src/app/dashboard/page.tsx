@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { ROLE_LABELS } from "@/lib/player-labels";
 import { getSession } from "@/lib/session";
 
-export const metadata = { title: "Players | Cricket Impact" };
+export const metadata = { title: "Players | Criico" };
 
 export default async function PlayersPage() {
   const [session, players] = await Promise.all([
@@ -45,7 +45,10 @@ export default async function PlayersPage() {
           <tbody className="divide-y divide-slate-100">
             {players.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-4 py-10 text-center text-slate-500">
+                <td
+                  colSpan={7}
+                  className="px-4 py-10 text-center text-slate-500"
+                >
                   No players yet.{isAdmin ? " Add the first one." : ""}
                 </td>
               </tr>
@@ -54,10 +57,18 @@ export default async function PlayersPage() {
               <tr key={player.id} className="hover:bg-slate-50">
                 <td className="px-4 py-3 font-medium">{player.name}</td>
                 <td className="px-4 py-3">{ROLE_LABELS[player.role]}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{player.basePrice.toLocaleString()}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{player.matchesPlayed}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{player.totalRuns}</td>
-                <td className="px-4 py-3 text-right tabular-nums">{player.totalWickets}</td>
+                <td className="px-4 py-3 text-right tabular-nums">
+                  {player.basePrice.toLocaleString()}
+                </td>
+                <td className="px-4 py-3 text-right tabular-nums">
+                  {player.matchesPlayed}
+                </td>
+                <td className="px-4 py-3 text-right tabular-nums">
+                  {player.totalRuns}
+                </td>
+                <td className="px-4 py-3 text-right tabular-nums">
+                  {player.totalWickets}
+                </td>
                 {isAdmin && (
                   <td className="px-4 py-3 text-right">
                     <Link

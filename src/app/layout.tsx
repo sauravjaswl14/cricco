@@ -3,7 +3,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cricket Impact",
+  title: "Criico",
   description: "Manage cricket players and rank them by impact score",
 };
 

@@ -7,7 +7,13 @@ import { toast } from "sonner";
 
 type Mode = "login" | "register";
 
-export function AuthForm({ mode, redirectTo }: { mode: Mode; redirectTo: string }) {
+export function AuthForm({
+  mode,
+  redirectTo,
+}: {
+  mode: Mode;
+  redirectTo: string;
+}) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -51,14 +57,27 @@ export function AuthForm({ mode, redirectTo }: { mode: Mode; redirectTo: string 
         {isLogin ? "Sign in" : "Create account"}
       </h1>
       <p className="mt-1 text-sm text-slate-500">
-        {isLogin
-          ? "Access the cricket impact dashboard."
-          : "The first account becomes the admin."}
+        {isLogin ?
+          "Access the criico dashboard."
+        : "The first account becomes the admin."}
       </p>
 
       <form onSubmit={onSubmit} noValidate className="mt-6 space-y-4">
-        {!isLogin && <Field label="Name" name="name" autoComplete="name" error={errors.name} />}
-        <Field label="Email" name="email" type="email" autoComplete="email" error={errors.email} />
+        {!isLogin && (
+          <Field
+            label="Name"
+            name="name"
+            autoComplete="name"
+            error={errors.name}
+          />
+        )}
+        <Field
+          label="Email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          error={errors.email}
+        />
         <Field
           label="Password"
           name="password"
@@ -71,13 +90,20 @@ export function AuthForm({ mode, redirectTo }: { mode: Mode; redirectTo: string 
           disabled={pending}
           className="w-full rounded-lg bg-pitch px-4 py-2 text-sm font-medium text-white transition hover:bg-pitch-dark disabled:opacity-60"
         >
-          {pending ? "Please wait..." : isLogin ? "Sign in" : "Register"}
+          {pending ?
+            "Please wait..."
+          : isLogin ?
+            "Sign in"
+          : "Register"}
         </button>
       </form>
 
       <p className="mt-6 text-center text-sm text-slate-500">
         {isLogin ? "No account yet?" : "Already registered?"}{" "}
-        <Link href={isLogin ? "/register" : "/login"} className="font-medium text-pitch hover:underline">
+        <Link
+          href={isLogin ? "/register" : "/login"}
+          className="font-medium text-pitch hover:underline"
+        >
           {isLogin ? "Register" : "Sign in"}
         </Link>
       </p>
@@ -109,7 +135,9 @@ function Field({
           error ? "border-red-400" : "border-slate-300"
         }`}
       />
-      {error && <span className="mt-1 block text-xs text-red-600">{error}</span>}
+      {error && (
+        <span className="mt-1 block text-xs text-red-600">{error}</span>
+      )}
     </label>
   );
 }

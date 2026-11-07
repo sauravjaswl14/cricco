@@ -3,7 +3,7 @@ import { PlayerForm } from "@/components/player-form";
 import { getSession } from "@/lib/session";
 import { createPlayerAction } from "../actions";
 
-export const metadata = { title: "Add player | Cricket Impact" };
+export const metadata = { title: "Add player | Criico" };
 
 export default async function NewPlayerPage() {
   const session = await getSession();
@@ -12,7 +12,9 @@ export default async function NewPlayerPage() {
   return (
     <section className="max-w-xl">
       <h1 className="text-2xl font-semibold">Add player</h1>
-      <p className="mb-6 text-sm text-slate-500">Stats start from whatever they have so far.</p>
+      <p className="mb-6 text-sm text-slate-500">
+        Stats start from whatever they have so far.
+      </p>
       <PlayerForm
         action={createPlayerAction}
         submitLabel="Add player"

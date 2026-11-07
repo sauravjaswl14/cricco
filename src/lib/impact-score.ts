@@ -58,7 +58,7 @@ function experienceAdjustment(matchesPlayed: number): number {
 }
 
 /**
- * Cricket Impact Score.
+ * Criico Score.
  *
  *   effectiveRuns    = runs    * (1.3 if Batsman else 1)
  *   effectiveWickets = wickets * (1.5 if Bowler  else 1)
